@@ -179,8 +179,8 @@ def train(cfg: DictConfig):
                 {
                     "train_accuracy_history": train_accuracy_history[idx],
                     "valid_accuracy_history": valid_accuracy_history[idx],
-                    "train_loss_history": train_loss_history[idx],
-                    "valid_loss_history": valid_loss_history[idx],
+                    "train_loss": train_loss_history[idx],
+                    "valid_loss": valid_loss_history[idx],
                 },
                 step=idx + 1,
             )
