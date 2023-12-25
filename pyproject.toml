@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "ml-ops-segmentation"
+name = "ml_ops_segmentation"
 version = "0.1.0"
 description = "Package for image segmentation"
 authors = ["nickboyar <chief.boiarckin@icloud.com>"]
