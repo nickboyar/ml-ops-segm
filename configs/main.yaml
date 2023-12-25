@@ -18,8 +18,8 @@ train_prep:
 pred_threshold : 0.5
 seed: 42
 ml_flow:
-    server: "http://127.0.0.1:8080"
-    experiment_name: "Segmentation test"
+    server: "http://128.0.1.1:8080"
+    experiment_name: "Segmentation test 100"
 dvc:
     pull: "dvc pull"
     add_model: "dvc add model"

@@ -1,5 +1,6 @@
 import os
 import shutil
+import subprocess
 from pathlib import Path
 
 import hydra
@@ -150,16 +151,19 @@ def train(cfg: DictConfig):
     train_loss_history, valid_loss_history = [], []
     train_accuracy_history, valid_accuracy_history = [], []
 
-    # Set our tracking server uri for logging
     mlflow.set_tracking_uri(uri=cfg.ml_flow.server)
 
-    # Create a new MLflow Experiment
     mlflow.set_experiment(cfg.ml_flow.experiment_name)
+
+    git_id = subprocess.run(
+        ["git", "log", '--format="%H"', "-n", "1"], stdout=subprocess.PIPE
+    )
 
     params = {
         "lr": cfg.train_prep.lr,
         "epoches": cfg.train_prep.epoches,
         "batch_size": cfg.train_prep.batch_size,
+        "git commit id": git_id.stdout.decode("utf-8"),
     }
 
     for epoch in range(cfg.train_prep.epoches):
