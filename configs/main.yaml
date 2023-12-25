@@ -1,0 +1,26 @@
+data_path:
+    train_data: data/train_data/
+    test_data: data/test_data/
+    onnx_save_path: model
+    result_data: result/
+    name_pred_ending: "_pred_mask.jpg"
+    name_model: "model.onnx"
+resize:
+    size: 256
+    mode: "constant"
+    threshold: 0.5
+train_prep:
+    num_train: 80
+    batch_size: 8
+    lr: 0.0001
+    epoches: 5
+    opset: 11
+pred_threshold : 0.5
+seed: 42
+ml_flow:
+    server: "http://127.0.0.1:8080"
+    experiment_name: "Segmentation test"
+dvc:
+    pull: "dvc pull"
+    add_model: "dvc add model"
+    push: "dvc push"
