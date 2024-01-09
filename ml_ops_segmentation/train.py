@@ -8,13 +8,12 @@ import matplotlib.pyplot as plt
 import mlflow
 import numpy as np
 import torch
+from model import Unet
 from omegaconf import DictConfig
 from skimage.transform import resize
 from torch.optim import Adam
 from torch.utils.data import DataLoader
 from tqdm import tqdm
-
-from model import Unet
 
 
 BASE_PATH = str(Path(__file__).parent.parent / "configs")
