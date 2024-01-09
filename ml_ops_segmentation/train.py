@@ -14,7 +14,10 @@ from torch.optim import Adam
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 
-from model import UNET
+from model import Unet
+
+
+BASE_PATH = str(Path(__file__).parent.parent / "configs")
 
 
 def train_model(model, train_loader, optimizer, loss_fn):
@@ -26,21 +29,13 @@ def train_model(model, train_loader, optimizer, loss_fn):
 
     for x, y in tqdm(train_loader, desc="Train"):
         bs = y.size(0)
-
         inp, targ = x, y.squeeze(1)
-
         optimizer.zero_grad()
-
         output = model(inp)
-
         loss = loss_fn(output.reshape(bs, 1, -1).squeeze(), targ.reshape(bs, -1))
-
         train_loss += loss.item()
-
         loss.backward()
-
         optimizer.step()
-
         _, y_pred = output.max(dim=1)
         total += targ.size(0) * targ.size(1) * targ.size(2)
         correct += (targ == y_pred).sum().item()
@@ -61,15 +56,10 @@ def evaluate_model(model, loader, loss_fn):
 
     for x, y in tqdm(loader, desc="Evaluation"):
         bs = y.size(0)
-
         inp, targ = x, y.squeeze(1)
-
         output = model(inp)
-
         loss = loss_fn(output.reshape(bs, 1, -1).squeeze(), targ.reshape(bs, -1))
-
         total_loss += loss.item()
-
         _, y_pred = output.max(dim=1)
         total += targ.size(0) * targ.size(1) * targ.size(2)
         correct += (targ == y_pred).sum().item()
@@ -86,22 +76,16 @@ def bce_loss(y_real, y_pred):
 
 
 @hydra.main(
-    config_path=str(Path(__file__).parent.parent / "configs"),
+    config_path=BASE_PATH,
     config_name="main",
     version_base="1.2",
 )
 def train(cfg: DictConfig):
 
     os.system(cfg.dvc.pull)
-
     base_workdir = Path(__file__).parent.parent
-
     train_path = base_workdir / cfg.data_path.train_data
-
     list_of_train = sorted(train_path.glob("*"))
-
-    print(len(list_of_train))
-
     masks = []
     images = []
     for i in range(len(list_of_train)):
@@ -145,7 +129,7 @@ def train(cfg: DictConfig):
 
     loss_fn = bce_loss
 
-    model = UNET()
+    model = Unet()
     optimizer = Adam(model.parameters(), lr=cfg.train_prep.lr)
 
     train_loss_history, valid_loss_history = [], []

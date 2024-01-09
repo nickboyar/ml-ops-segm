@@ -31,7 +31,7 @@ def conv_plus_conv(in_channels, out_channels):
     )
 
 
-class UNET(nn.Module):
+class Unet(nn.Module):
     def __init__(self):
         super().__init__()
 
