@@ -31,6 +31,7 @@ line-length = 90
 target-version = ["py39"]
 
 [tool.isort]
+known_local_folder = ["ml_ops_segmentation"]
 profile = "black"
 line_length = 90
 lines_after_imports = 2
